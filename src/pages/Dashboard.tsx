@@ -30,7 +30,6 @@ import EcoCoach from './dashboard/EcoCoach';
 import EcoScanner from './dashboard/EcoScanner';
 import DigitalTwin from './dashboard/DigitalTwin';
 import Challenges from './dashboard/Challenges';
-import Leaderboard from './dashboard/Leaderboard';
 import KnowledgeHub from './dashboard/KnowledgeHub';
 import ActionPlan from './dashboard/ActionPlan';
 import CommunityHub from './dashboard/CommunityHub';

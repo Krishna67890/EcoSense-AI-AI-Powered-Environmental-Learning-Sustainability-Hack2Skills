@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
-  Leaf, Globe, Zap, ArrowRight, BarChart3, Users,
+  Leaf, Globe, Zap, ArrowRight,
   ShieldCheck, Volume2, Sparkles, ChevronDown,
-  HelpCircle, CheckCircle2, Star
+  CheckCircle2, Star
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 
@@ -109,6 +109,7 @@ const LandingPage = () => {
               <button
                 className="h-14 px-10 text-lg rounded-2xl glass-dark border border-white/10 flex items-center justify-center gap-3 hover:bg-white/5 transition-all"
                 onClick={speakOverview}
+                aria-label="Listen to the vision of EcoSense AI using text-to-speech"
               >
                 <Volume2 className="h-5 w-5 text-primary" />
                 Listen to Vision
@@ -131,11 +132,12 @@ const LandingPage = () => {
                   </h3>
                   <p className="text-muted-foreground mt-1">See how our core engine processes your daily habits.</p>
                 </div>
-                <div className="flex gap-2 p-1.5 bg-white/5 rounded-2xl">
+                  <div className="flex gap-2 p-1.5 bg-white/5 rounded-2xl" role="group" aria-label="Select commute type for simulation">
                   {['car', 'bus', 'bike', 'walk'].map((t) => (
                     <button
                       key={t}
                       onClick={() => setCommuteType(t)}
+                      aria-pressed={commuteType === t}
                       className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${commuteType === t ? 'bg-primary text-black' : 'hover:bg-white/10 text-muted-foreground'}`}
                     >
                       {t}

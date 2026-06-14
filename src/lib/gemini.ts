@@ -36,6 +36,7 @@ export const analyzeProductImage = async (imageBuffer: string) => {
     - Rate from A (Sustainable/Eco-friendly) to E (High Impact/Non-recyclable).
     - List 3 specific sustainable alternatives.
     - List 3 Pros (Eco-strengths) and 3 Cons (Eco-weaknesses).
+    - Provide a breakdown of CO2 sources (e.g., "Manufacturing: 40%, Transport: 30%, Usage: 30%").
 
     Response Format: Strictly valid JSON:
     {
@@ -45,7 +46,8 @@ export const analyzeProductImage = async (imageBuffer: string) => {
       "alternatives": string[],
       "pros": string[],
       "cons": string[],
-      "summary": string
+      "summary": string,
+      "breakdown": { "manufacturing": number, "transport": number, "usage": number }
     }
   `;
 

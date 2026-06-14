@@ -141,16 +141,16 @@ const Overview = () => {
 
       {/* Main Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card variant="glass" className="relative overflow-hidden group border-l-4 border-l-primary">
+        <Card variant="glass" className="relative overflow-hidden group border-l-4 border-l-primary" role="status" aria-label="Global Rank Score">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-             <Zap size={64} className="text-primary" />
+             <Zap size={64} className="text-primary" aria-hidden="true" />
           </div>
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Global Rank Score</p>
           <div className="mt-2 flex items-baseline space-x-2">
             <span className="text-4xl font-black">{userProfile?.ecoProgress || 78}</span>
             <span className="text-xs text-primary font-bold">TOP 5%</span>
           </div>
-          <div className="mt-4 w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+          <div className="mt-4 w-full bg-white/5 h-1.5 rounded-full overflow-hidden" aria-hidden="true">
              <motion.div
                initial={{ width: 0 }}
                animate={{ width: `${userProfile?.ecoProgress || 78}%` }}
@@ -159,7 +159,7 @@ const Overview = () => {
           </div>
         </Card>
 
-        <Card variant="glass" className="border-l-4 border-l-blue-500">
+        <Card variant="glass" className="border-l-4 border-l-blue-500" role="status" aria-label="Community Impact">
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Community Impact</p>
           <div className="mt-2 flex items-baseline space-x-2">
             <span className="text-4xl font-black">{globalStats.co2Offset.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
@@ -170,7 +170,7 @@ const Overview = () => {
             </div>
           </Card>
 
-          <Card variant="glass" className="border-t-4 border-t-primary relative overflow-hidden">
+          <Card variant="glass" className="border-t-4 border-t-primary relative overflow-hidden" role="region" aria-label="Daily Quick Tracking">
             <h3 className="font-bold text-sm mb-4">Daily 1-Click Track</h3>
             <div className="space-y-3">
                {[
@@ -182,10 +182,11 @@ const Overview = () => {
                    key={action.label}
                    disabled={isUpdating}
                    onClick={() => handleQuickTrack(action.points, action.label)}
+                   aria-label={`Log action: ${action.label} for ${action.points} points`}
                    className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-primary/10 hover:border-primary/30 transition-all group"
                  >
                    <div className="flex items-center gap-3">
-                     <action.icon size={14} className="text-muted-foreground group-hover:text-primary" />
+                     <action.icon size={14} className="text-muted-foreground group-hover:text-primary" aria-hidden="true" />
                      <span className="text-[10px] font-bold uppercase tracking-wider">{action.label}</span>
                    </div>
                    <span className="text-[10px] font-black text-primary">+{action.points} XP</span>
@@ -194,14 +195,14 @@ const Overview = () => {
             </div>
           </Card>
 
-          <Card variant="glass" className="bg-primary/10 border-primary/20">
+          <Card variant="glass" className="bg-primary/10 border-primary/20" role="status" aria-label="Active Warriors Online">
             <p className="text-[10px] font-black text-primary uppercase tracking-widest">Active Warriors</p>
             <div className="mt-2 flex items-baseline space-x-2">
               <span className="text-4xl font-black text-white">{globalStats.activeNow}</span>
               <span className="text-xs text-primary font-bold">ONLINE</span>
             </div>
             <div className="mt-4 flex items-center text-[10px] text-green-500 font-black">
-              <div className="h-1.5 w-1.5 rounded-full bg-green-500 mr-2 animate-pulse" />
+              <div className="h-1.5 w-1.5 rounded-full bg-green-500 mr-2 animate-pulse" aria-hidden="true" />
               SYNCHRONIZED NOW
             </div>
           </Card>
