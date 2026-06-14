@@ -1,0 +1,66 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Function to check if user is authenticated
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Function to check if the user is the owner of the document
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // User Profiles Collection
+    match /users/{userId} {
+      // Allow reading basic profile info for leaderboard/community
+      // Sensitive data like email/habits should ideally be in a private subcollection,
+      // but for now, we restrict the fields returned in the application logic
+      // or use field-level security if needed.
+      allow read: if isSignedIn();
+
+      // Allow users to create their own profile during onboarding
+      allow create: if isOwner(userId);
+
+      // Allow users to update only their own profile with specific fields
+      allow update: if isOwner(userId) &&
+        request.resource.data.diff(resource.data).affectedKeys()
+        .hasOnly(['fullName', 'displayName', 'photoURL', 'profileImage', 'phoneNumber',
+                  'sustainabilityScore', 'level', 'experience', 'totalTasksCompleted',
+                  'lastLogin', 'lastSeen', 'isOnline', 'loginCount', 'rank', 'badges',
+                  'habits', 'completedChallenges', 'completedTasks', 'moduleProgress',
+                  'labProgress', 'twoFactorEnabled', 'ecoProgress', 'activeChallenges',
+                  'notifications', 'greenCoins', 'streak']);
+
+      allow delete: if false; // Profiles cannot be deleted via client SDK
+    }
+
+    // Community Posts Collection
+    match /community_posts/{postId} {
+      // Anyone can read posts
+      allow read: if true;
+
+      // Authenticated users can create posts
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Only the author can update their post content
+      // EXCEPT for 'likes' and 'comments' which others can interact with
+      allow update: if isSignedIn() && (
+        (request.resource.data.userId == request.auth.uid) ||
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'comments']))
+      );
+
+      // Only the author can delete their post
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Global Statistics
+    match /stats/{statId} {
+      allow read: if true;
+      allow write: if false; // Only manageable via Admin SDK/Cloud Functions
+    }
+  }
+}
