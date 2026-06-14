@@ -12,7 +12,10 @@ describe('Data Integrity', () => {
     it('should have valid points and rewards', () => {
       CHALLENGES.forEach(challenge => {
         expect(challenge.points).toBeGreaterThan(0);
-        expect(challenge.reward.xp).toBeGreaterThanOrEqual(challenge.points);
+        expect(challenge.reward).toBeDefined();
+        if (challenge.reward) {
+          expect(challenge.reward.xp).toBeGreaterThanOrEqual(challenge.points);
+        }
       });
     });
 
@@ -32,16 +35,21 @@ describe('Data Integrity', () => {
 
     it('should have exactly 10 quiz questions per module', () => {
       MODULES.forEach(module => {
-        expect(module.quiz.length).toBe(10);
+        expect(module.quiz).toBeDefined();
+        if (module.quiz) {
+          expect(module.quiz.length).toBe(10);
+        }
       });
     });
 
     it('should have valid correct answer indices for all quiz questions', () => {
       MODULES.forEach(module => {
-        module.quiz.forEach(q => {
-          expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
-          expect(q.correctAnswer).toBeLessThan(q.options.length);
-        });
+        if (module.quiz) {
+          module.quiz.forEach(q => {
+            expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+            expect(q.correctAnswer).toBeLessThan(q.options.length);
+          });
+        }
       });
     });
   });
@@ -55,7 +63,10 @@ describe('Data Integrity', () => {
 
     it('should have exactly 5 quiz questions per lab', () => {
       LABS.forEach(lab => {
-        expect(lab.quiz.length).toBe(5);
+        expect(lab.quiz).toBeDefined();
+        if (lab.quiz) {
+          expect(lab.quiz.length).toBe(5);
+        }
       });
     });
 

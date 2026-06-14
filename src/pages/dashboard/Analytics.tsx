@@ -156,11 +156,11 @@ const Analytics = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Cumulative Emissions Bar Chart */}
-        <Card variant="glass">
+        <Card variant="glass" role="region" aria-label="Emissions by Category Bar Chart">
           <h3 className="text-lg font-bold mb-6">Emissions by Category</h3>
-          <div className="h-[350px] w-full">
+          <div className="h-[350px] w-full" aria-label="Bar chart showing emissions for transportation, energy, food, and waste over the last 6 months">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={monthlyData}>
+              <BarChart data={monthlyData} accessibilityLayer>
                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                 <XAxis dataKey="month" stroke="#ffffff40" tickLine={false} axisLine={false} />
                 <YAxis stroke="#ffffff40" tickLine={false} axisLine={false} />
@@ -178,11 +178,11 @@ const Analytics = () => {
         </Card>
 
         {/* Breakdown Pie Chart */}
-        <Card variant="glass">
+        <Card variant="glass" role="region" aria-label="Total Impact Distribution Pie Chart">
           <h3 className="text-lg font-bold mb-6">Total Impact Distribution</h3>
-          <div className="h-[350px] w-full flex items-center justify-center">
+          <div className="h-[350px] w-full flex items-center justify-center" aria-label="Pie chart showing percentage distribution of impact categories">
              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
+                <PieChart accessibilityLayer>
                   <Pie
                     data={categoryData}
                     cx="50%"
@@ -206,17 +206,17 @@ const Analytics = () => {
         </Card>
 
         {/* Predictive Forecasting Line Chart */}
-        <Card variant="glass" className="lg:col-span-2">
+        <Card variant="glass" className="lg:col-span-2" role="region" aria-label="Predictive Sustainability Forecast Chart">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg font-bold">Predictive Sustainability Forecasting</h3>
             <div className="flex items-center text-xs text-primary font-bold">
-               <Sparkles className="h-3 w-3 mr-1" />
+               <Sparkles className="h-3 w-3 mr-1" aria-hidden="true" />
                AI POWERED
             </div>
           </div>
-          <div className="h-[350px] w-full">
+          <div className="h-[350px] w-full" aria-label="Line chart showing actual emissions versus AI predicted future emissions">
              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={dynamicForecast}>
+                <LineChart data={dynamicForecast} accessibilityLayer>
                    <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                    <XAxis dataKey="month" stroke="#ffffff40" tickLine={false} axisLine={false} />
                    <YAxis stroke="#ffffff40" tickLine={false} axisLine={false} />

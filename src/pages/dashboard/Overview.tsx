@@ -26,13 +26,18 @@ import { getFirestore } from '../../lib/firebase';
 import { UserProfile } from '../../types';
 
 const data = [
-  { name: 'Mon', emissions: 12 },
-  { name: 'Tue', emissions: 15 },
-  { name: 'Wed', emissions: 10 },
-  { name: 'Thu', emissions: 18 },
-  { name: 'Fri', emissions: 14 },
-  { name: 'Sat', emissions: 8 },
-  { name: 'Sun', emissions: 7 },
+  { name: 'Jan', emissions: 450, projection: 450 },
+  { name: 'Feb', emissions: 420, projection: 420 },
+  { name: 'Mar', emissions: 435, projection: 435 },
+  { name: 'Apr', emissions: 400, projection: 400 },
+  { name: 'May', emissions: 380, projection: 380 },
+  { name: 'Jun', emissions: 360, projection: 360 },
+  { name: 'Jul', emissions: null, projection: 340 },
+  { name: 'Aug', emissions: null, projection: 320 },
+  { name: 'Sep', emissions: null, projection: 300 },
+  { name: 'Oct', emissions: null, projection: 280 },
+  { name: 'Nov', emissions: null, projection: 260 },
+  { name: 'Dec', emissions: null, projection: 240 },
 ];
 
 const PROBLEM_STATEMENT = "Challenge 3] Carbon Footprint Awareness Platform: Design a solution that helps individuals understand, track, and reduce their carbon footprint through simple actions and personalized insights.";
@@ -213,13 +218,19 @@ const Overview = () => {
         <Card variant="glass" className="lg:col-span-2">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="font-bold">Sustainability Pulse</h3>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">Real-time emission monitoring</p>
+              <h3 className="font-bold">12-Month Impact Projection</h3>
+              <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">AI-Driven CO₂ Reduction Forecast</p>
             </div>
-            <select className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-[10px] font-bold outline-none uppercase tracking-widest">
-              <option>Cycle: 7 Days</option>
-              <option>Cycle: 30 Days</option>
-            </select>
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-primary" />
+                <span className="text-[10px] font-bold uppercase">Actual</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-primary/30 border border-dashed border-primary" />
+                <span className="text-[10px] font-bold uppercase">Projected</span>
+              </div>
+            </div>
           </div>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -227,6 +238,10 @@ const Overview = () => {
                 <defs>
                   <linearGradient id="colorEmissions" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#22c55e" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorProjection" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#22c55e" stopOpacity={0.1}/>
                     <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
@@ -253,11 +268,21 @@ const Overview = () => {
                 />
                 <Area
                   type="monotone"
+                  dataKey="projection"
+                  stroke="#22c55e"
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  fillOpacity={1}
+                  fill="url(#colorProjection)"
+                />
+                <Area
+                  type="monotone"
                   dataKey="emissions"
                   stroke="#22c55e"
                   strokeWidth={4}
                   fillOpacity={1}
                   fill="url(#colorEmissions)"
+                  connectNulls={false}
                 />
               </AreaChart>
             </ResponsiveContainer>

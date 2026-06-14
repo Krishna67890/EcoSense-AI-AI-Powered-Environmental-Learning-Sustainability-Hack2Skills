@@ -100,18 +100,18 @@ const LandingPage = () => {
               Experience the power of Gemini 1.5 Pro AI. Measure, predict, and automate your journey to Net Zero with real-time predictive analytics.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-5">
-              <Link to="/auth?mode=signup">
+              <Link to="/auth?mode=signup" aria-label="Get started with EcoSense AI">
                 <Button size="lg" className="h-14 px-10 text-lg rounded-2xl group shadow-2xl shadow-primary/20">
                   Launch Platform
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </Button>
               </Link>
               <button
-                className="h-14 px-10 text-lg rounded-2xl glass-dark border border-white/10 flex items-center justify-center gap-3 hover:bg-white/5 transition-all"
+                className="h-14 px-10 text-lg rounded-2xl glass-dark border border-white/10 flex items-center justify-center gap-3 hover:bg-white/5 transition-all focus:ring-2 focus:ring-primary outline-none"
                 onClick={speakOverview}
                 aria-label="Listen to the vision of EcoSense AI using text-to-speech"
               >
-                <Volume2 className="h-5 w-5 text-primary" />
+                <Volume2 className="h-5 w-5 text-primary" aria-hidden="true" />
                 Listen to Vision
               </button>
             </div>
@@ -227,11 +227,11 @@ const LandingPage = () => {
               <ul className="space-y-4 mb-10 flex-1">
                 {['Hyper-Personalized Digital Twin', 'Advanced Predictive Analytics', 'Professional Certifications', 'Priority AI Coaching'].map((f) => (
                   <li key={f} className="flex items-center gap-3 text-sm font-medium">
-                    <CheckCircle2 size={18} className="text-primary" /> {f}
+                    <CheckCircle2 size={18} className="text-primary" aria-hidden="true" /> {f}
                   </li>
                 ))}
               </ul>
-              <Button className="w-full h-12 rounded-xl shadow-xl shadow-primary/20">Upgrade Now</Button>
+              <Button className="w-full h-12 rounded-xl shadow-xl shadow-primary/20" aria-label="Upgrade to Sustainability Titan plan">Upgrade Now</Button>
             </div>
           </div>
         </div>
