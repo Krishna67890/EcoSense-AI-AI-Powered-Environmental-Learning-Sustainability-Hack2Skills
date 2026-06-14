@@ -212,10 +212,10 @@ const DigitalTwin = () => {
             </Card>
           </div>
 
-          <Card variant="glass">
+          <Card variant="glass" role="region" aria-label="Lifestyle Modification Parameters">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-bold">Lifestyle Modification Parameters</h3>
-              <div className="text-[10px] font-mono text-muted-foreground">ADJUST_PARAMETERS_V1.4</div>
+              <div className="text-[10px] font-mono text-muted-foreground" aria-hidden="true">ADJUST_PARAMETERS_V1.4</div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
@@ -225,17 +225,19 @@ const DigitalTwin = () => {
                   { id: 'noFlights', label: 'Zero Flights', icon: Plane, color: 'text-purple-400', desc: 'Sustainable travel only' },
                   { id: 'publicTransit', label: 'Public Transit', icon: MapIcon, color: 'text-orange-400', desc: 'Daily commute by rail/bus' }
                 ].map((item) => (
-                <div
+                <button
                   key={item.id}
                   onClick={() => toggleSim(item.id as any)}
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between ${
+                  aria-pressed={simulation[item.id as keyof typeof simulation]}
+                  aria-label={`${item.label}: ${item.desc}`}
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between text-left ${
                     simulation[item.id as keyof typeof simulation]
                     ? 'border-primary bg-primary/10'
                     : 'border-white/5 bg-white/5 hover:border-white/10'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <div className={`p-2 rounded-lg bg-black/40 ${item.color}`}>
+                    <div className={`p-2 rounded-lg bg-black/40 ${item.color}`} aria-hidden="true">
                        <item.icon size={18} />
                     </div>
                     <div>
@@ -245,30 +247,25 @@ const DigitalTwin = () => {
                   </div>
                   <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors ${
                     simulation[item.id as keyof typeof simulation] ? 'border-primary bg-primary' : 'border-white/20'
-                  }`}>
+                  }`} aria-hidden="true">
                     {simulation[item.id as keyof typeof simulation] && <div className="h-1.5 w-1.5 bg-black rounded-full" />}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </Card>
 
-          <Card variant="glass" className="h-[250px] relative overflow-hidden">
+          <Card variant="glass" className="h-[250px] relative overflow-hidden" role="region" aria-label="Carbon Twin Telemetry Stream">
              <div className="absolute top-4 left-4 z-10">
                 <h4 className="text-sm font-bold flex items-center">
-                   <Activity className="mr-2 h-4 w-4 text-primary" />
+                   <Activity className="mr-2 h-4 w-4 text-primary" aria-hidden="true" />
                    Twin Telemetry Stream
                 </h4>
              </div>
-             <div className="absolute inset-0 pt-12">
+             <div className="absolute inset-0 pt-12" aria-label="Real-time telemetry chart showing fluctuating carbon twin data">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={telemetry}>
+                  <AreaChart data={telemetry} accessibilityLayer>
                     <defs>
-                      <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
                     <Tooltip
                       contentStyle={{ backgroundColor: '#000', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
@@ -291,15 +288,15 @@ const DigitalTwin = () => {
 
         {/* Right Column: Comparison & Final Impact */}
         <div className="lg:col-span-4 space-y-6">
-          <Card variant="glass" className="relative overflow-hidden flex flex-col justify-center">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.1),transparent_50%)]" />
+          <Card variant="glass" className="relative overflow-hidden flex flex-col justify-center" role="region" aria-label="Simulated Emissions Comparison">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.1),transparent_50%)]" aria-hidden="true" />
 
             <div className="relative z-10 p-2 text-center">
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-4">Emissions Comparison (kg CO₂e)</p>
 
-              <div className="h-64 w-full">
+              <div className="h-64 w-full" aria-label="Bar chart comparing current emissions vs simulated emissions based on selected parameters">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData}>
+                  <BarChart data={chartData} accessibilityLayer>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
                     <YAxis hide />
@@ -317,11 +314,11 @@ const DigitalTwin = () => {
               </div>
 
               <div className="mt-6 space-y-4">
-                <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl border border-white/10">
+                <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl border border-white/10" role="status" aria-label={`Potential Reduction: ${impact.reduction} kg`}>
                   <span className="text-xs text-muted-foreground">Potential Reduction</span>
                   <span className="text-primary font-bold">-{impact.reduction} kg</span>
                 </div>
-                <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl border border-white/10">
+                <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl border border-white/10" role="status" aria-label={`Future Eco Score: ${impact.newScore} out of 100`}>
                   <span className="text-xs text-muted-foreground">Future Score</span>
                   <span className="text-primary font-bold">{impact.newScore} / 100</span>
                 </div>

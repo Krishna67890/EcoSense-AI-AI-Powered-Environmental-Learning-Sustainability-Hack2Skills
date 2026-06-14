@@ -40,7 +40,7 @@ import {
   arrayRemove
 } from 'firebase/firestore';
 import { generateBotPosts, BOT_COMMENTS, BOT_NAMES } from '../../lib/bots';
-import { CommunityPost } from '../../types';
+import { CommunityPost, UserProfile } from '../../types';
 
 const CommunityHub = () => {
   const { userProfile, currentUser } = useAuth();
@@ -234,10 +234,13 @@ const CommunityHub = () => {
           </Card>
 
           {/* Tabs */}
-          <div className="flex gap-2 p-1 bg-white/5 rounded-xl w-fit">
+          <div className="flex gap-2 p-1 bg-white/5 rounded-xl w-fit" role="tablist" aria-label="Filter community posts">
              {(['all', 'achievements', 'discussions', 'tips'] as const).map(tab => (
                <button
                  key={tab}
+                 role="tab"
+                 aria-selected={activeTab === tab}
+                 aria-controls={`panel-${tab}`}
                  onClick={() => setActiveTab(tab)}
                  className={cn(
                    "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
@@ -250,7 +253,7 @@ const CommunityHub = () => {
           </div>
 
           {/* Feed */}
-          <div className="space-y-6">
+          <div className="space-y-6" role="region" aria-label="Community Feed" id={`panel-${activeTab}`}>
             <AnimatePresence mode="popLayout">
               {filteredPosts.map((post) => (
                 <motion.div
@@ -389,8 +392,8 @@ const CommunityHub = () => {
               <Button variant="outline" className="w-full mt-6 text-[10px] font-black uppercase tracking-widest border-white/10">View Leaderboard</Button>
            </Card>
 
-           <Card variant="glass" className="p-6 border-dashed border-primary/30 text-center">
-              <Globe className="h-10 w-10 text-primary mx-auto mb-4 opacity-50" />
+           <Card variant="glass" className="p-6 border-dashed border-primary/30 text-center" role="status" aria-label="Global Community Impact Statistics">
+              <Globe className="h-10 w-10 text-primary mx-auto mb-4 opacity-50" aria-hidden="true" />
               <h3 className="text-md font-black mb-2">Global Impact</h3>
               <p className="text-xs text-muted-foreground mb-6">Our community has collectively offset <span className="text-white font-bold">{globalStats.co2Offset.toLocaleString(undefined, { maximumFractionDigits: 0 })} kg</span> of CO₂.</p>
               <div className="grid grid-cols-2 gap-4 mb-6">
@@ -403,10 +406,10 @@ const CommunityHub = () => {
                     <p className="text-lg font-black text-blue-400">{globalStats.activeNow}</p>
                  </div>
               </div>
-              <div className="flex justify-center -space-x-2">
+              <div className="flex justify-center -space-x-2" aria-label="Active community members">
                  {[1,2,3,4,5].map(i => (
                    <div key={i} className="h-8 w-8 rounded-full border-2 border-[#09090b] bg-white/10 flex items-center justify-center text-[10px] font-black overflow-hidden">
-                      <img src={`https://i.pravatar.cc/100?u=${i}`} alt="" />
+                      <img src={`https://i.pravatar.cc/100?u=${i}`} alt="" aria-hidden="true" />
                    </div>
                  ))}
                  <div className="h-8 w-8 rounded-full border-2 border-[#09090b] bg-primary text-black flex items-center justify-center text-[8px] font-black">

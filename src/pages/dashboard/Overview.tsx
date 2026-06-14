@@ -215,7 +215,7 @@ const Overview = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Weekly Trend Intelligence */}
-        <Card variant="glass" className="lg:col-span-2">
+        <Card variant="glass" className="lg:col-span-2" role="region" aria-label="12-Month CO2 Impact Projection Chart">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="font-bold">12-Month Impact Projection</h3>
@@ -223,18 +223,18 @@ const Overview = () => {
             </div>
             <div className="flex gap-4">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-primary" />
+                <div className="w-3 h-3 rounded-full bg-primary" aria-hidden="true" />
                 <span className="text-[10px] font-bold uppercase">Actual</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-primary/30 border border-dashed border-primary" />
+                <div className="w-3 h-3 rounded-full bg-primary/30 border border-dashed border-primary" aria-hidden="true" />
                 <span className="text-[10px] font-bold uppercase">Projected</span>
               </div>
             </div>
           </div>
-          <div className="h-[300px] w-full">
+          <div className="h-[300px] w-full" aria-label="Area chart showing actual CO2 emissions and AI-driven projections for the next 6 months">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data}>
+              <AreaChart data={data} accessibilityLayer>
                 <defs>
                   <linearGradient id="colorEmissions" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#22c55e" stopOpacity={0.4}/>
@@ -325,9 +325,9 @@ const Overview = () => {
             </div>
           </Card>
 
-          <Card variant="glass">
+          <Card variant="glass" role="region" aria-label="Eco-Intelligence Breakdown">
             <h3 className="font-bold mb-4 flex items-center gap-2">
-               <CheckCircle2 size={16} className="text-primary" />
+               <CheckCircle2 size={16} className="text-primary" aria-hidden="true" />
                Intelligence Breakdown
             </h3>
             <div className="space-y-4">
@@ -337,10 +337,10 @@ const Overview = () => {
                 { label: 'Food Footprint', value: 25, icon: Utensils, color: 'bg-orange-500' },
                 { label: 'Waste Stream', value: 10, icon: Droplets, color: 'bg-primary' },
               ].map((item) => (
-                <div key={item.label} className="space-y-1.5">
+                <div key={item.label} className="space-y-1.5" role="progressbar" aria-valuenow={item.value} aria-valuemin={0} aria-valuemax={100} aria-label={`${item.label} footprint: ${item.value}%`}>
                   <div className="flex justify-between text-[10px] font-black uppercase tracking-tighter">
                     <span className="flex items-center gap-2">
-                      <item.icon size={12} className="text-muted-foreground" />
+                      <item.icon size={12} className="text-muted-foreground" aria-hidden="true" />
                       {item.label}
                     </span>
                     <span>{item.value}%</span>
