@@ -30,7 +30,7 @@ export const generateBots = (): UserProfile[] => {
     isOnline: Math.random() > 0.3,
     lastSeen: new Date().toISOString(),
     isBot: true
-  } as any));
+  }));
 };
 
 export const BOT_COMMENTS = [

@@ -39,6 +39,7 @@ export interface UserProfile {
   dietType?: string;
   primaryTransport?: string;
   housingType?: string;
+  isBot?: boolean;
 }
 
 export interface HabitData {
