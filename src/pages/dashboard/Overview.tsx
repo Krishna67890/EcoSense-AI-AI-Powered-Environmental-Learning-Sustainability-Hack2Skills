@@ -5,12 +5,8 @@ import {
   Car,
   Utensils,
   Droplets,
-  TrendingDown,
-  TreeDeciduous,
-  AlertCircle,
   Sparkles,
   CheckCircle2,
-  ArrowRight,
   MessageSquare
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';

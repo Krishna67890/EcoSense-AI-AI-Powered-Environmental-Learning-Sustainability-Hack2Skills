@@ -53,7 +53,7 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ stats, userName }) => {
           url: window.location.origin
         });
       } catch (err) {
-        console.log('Share failed or cancelled');
+        // Silent fail for share cancellation
       }
     } else {
       exportAsImage();

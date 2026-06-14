@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  User, Mail, Camera, Shield, Bell, Leaf,
-  Award, Target, Settings as SettingsIcon, LogOut,
-  CheckCircle2, Circle, Microscope, BookOpen,
+  User, Mail, Camera, Shield, Leaf,
+  Award, LogOut,
+  CheckCircle2, Microscope, BookOpen,
   Github, Linkedin, Zap, Lock, Eye, EyeOff, Save, Loader2, Sparkles
 } from 'lucide-react';
 import Card from '../../components/ui/Card';
@@ -338,19 +338,19 @@ const Profile = () => {
 
   return (
     <div className="space-y-8 pb-10">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4" role="banner">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Eco-Intelligence Profile</h1>
           <p className="text-muted-foreground mt-1 text-sm max-w-2xl">
-            Challenge 3] Carbon Footprint Awareness Platform: Tracking impact through advanced insights.
+            Challenge 3: Carbon Footprint Awareness Platform: Tracking impact through advanced insights.
           </p>
         </div>
-        <div className="flex gap-2">
-           <a href="https://github.com/Krishna67890" target="_blank" rel="noreferrer">
-             <Button variant="outline" size="icon" className="rounded-xl"><Github size={18} /></Button>
+        <div className="flex gap-2" role="navigation" aria-label="Social links">
+           <a href="https://github.com/Krishna67890" target="_blank" rel="noreferrer" aria-label="GitHub Developer Profile">
+             <Button variant="outline" size="icon" className="rounded-xl"><Github size={18} aria-hidden="true" /></Button>
            </a>
-           <a href="https://www.linkedin.com/in/krishna-patil-rajput-b66b03340" target="_blank" rel="noreferrer">
-             <Button variant="outline" size="icon" className="rounded-xl"><Linkedin size={18} /></Button>
+           <a href="https://www.linkedin.com/in/krishna-patil-rajput-b66b03340" target="_blank" rel="noreferrer" aria-label="LinkedIn Developer Profile">
+             <Button variant="outline" size="icon" className="rounded-xl"><Linkedin size={18} aria-hidden="true" /></Button>
            </a>
         </div>
       </header>
@@ -409,8 +409,9 @@ const Profile = () => {
                 onClick={handleCameraClick}
                 disabled={uploadProgress !== null}
                 className="absolute -bottom-2 -right-2 p-3 bg-primary rounded-xl text-black border-4 border-[#09090b] hover:scale-110 transition-transform shadow-lg disabled:opacity-50"
+                aria-label="Upload profile picture"
               >
-                <Camera size={18} />
+                <Camera size={18} aria-hidden="true" />
               </button>
               <input
                 type="file"
@@ -436,16 +437,20 @@ const Profile = () => {
               <p className="text-[10px] text-muted-foreground">{nextLevelXP - (userProfile?.experience || 0)} XP to Level {currentLevel + 1}</p>
             </div>
 
-            <nav className="mt-8 flex flex-col gap-1 text-left">
+            <nav className="mt-8 flex flex-col gap-1 text-left" role="tablist" aria-label="Profile sections">
               {[
-                { id: 'overview', label: 'Overview', icon: <User size={16} /> },
-                { id: 'labs', label: '50 Eco Labs', icon: <Microscope size={16} /> },
-                { id: 'modules', label: 'Knowledge Modules', icon: <BookOpen size={16} /> },
-                { id: 'badges', label: '50 Badges', icon: <Award size={16} /> },
-                { id: 'security', label: 'Advanced Security', icon: <Shield size={16} /> },
+                { id: 'overview', label: 'Overview', icon: <User size={16} aria-hidden="true" /> },
+                { id: 'labs', label: '50 Eco Labs', icon: <Microscope size={16} aria-hidden="true" /> },
+                { id: 'modules', label: 'Knowledge Modules', icon: <BookOpen size={16} aria-hidden="true" /> },
+                { id: 'badges', label: '50 Badges', icon: <Award size={16} aria-hidden="true" /> },
+                { id: 'security', label: 'Advanced Security', icon: <Shield size={16} aria-hidden="true" /> },
               ].map((item) => (
                 <button
                   key={item.id}
+                  id={`tab-${item.id}`}
+                  role="tab"
+                  aria-selected={activeTab === item.id}
+                  aria-controls={`panel-${item.id}`}
                   onClick={() => setActiveTab(item.id as any)}
                   className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
                     activeTab === item.id ? 'bg-primary text-black font-bold' : 'hover:bg-white/5 text-muted-foreground'
@@ -523,8 +528,9 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-muted-foreground uppercase">Update Full Name</label>
+                    <label htmlFor="displayNameInput" className="text-xs font-bold text-muted-foreground uppercase">Update Full Name</label>
                     <input
+                      id="displayNameInput"
                       type="text"
                       disabled={!isEditing}
                       value={formData.displayName}
@@ -536,8 +542,9 @@ const Profile = () => {
 
                   {/* Sustainability Persona Dropdowns */}
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-muted-foreground uppercase">Diet Type</label>
+                    <label htmlFor="dietTypeSelect" className="text-xs font-bold text-muted-foreground uppercase">Diet Type</label>
                     <select
+                      id="dietTypeSelect"
                       disabled={!isEditing}
                       value={formData.dietType}
                       onChange={(e) => setFormData({ ...formData, dietType: e.target.value })}
@@ -549,8 +556,9 @@ const Profile = () => {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-muted-foreground uppercase">Primary Transport</label>
+                    <label htmlFor="transportSelect" className="text-xs font-bold text-muted-foreground uppercase">Primary Transport</label>
                     <select
+                      id="transportSelect"
                       disabled={!isEditing}
                       value={formData.primaryTransport}
                       onChange={(e) => setFormData({ ...formData, primaryTransport: e.target.value })}
@@ -562,8 +570,9 @@ const Profile = () => {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-muted-foreground uppercase">Housing Type</label>
+                    <label htmlFor="housingSelect" className="text-xs font-bold text-muted-foreground uppercase">Housing Type</label>
                     <select
+                      id="housingSelect"
                       disabled={!isEditing}
                       value={formData.housingType}
                       onChange={(e) => setFormData({ ...formData, housingType: e.target.value })}
@@ -575,8 +584,9 @@ const Profile = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-muted-foreground uppercase">Phone Number</label>
+                    <label htmlFor="phoneNumberInput" className="text-xs font-bold text-muted-foreground uppercase">Phone Number</label>
                     <input
+                      id="phoneNumberInput"
                       type="tel"
                       disabled={!isEditing}
                       value={formData.phoneNumber}
@@ -795,14 +805,15 @@ const Profile = () => {
                     <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
                       <div className="flex justify-between items-center mb-4">
                         <p className="font-bold text-sm uppercase tracking-widest text-muted-foreground">Security Protocol</p>
-                        <button onClick={() => setShowPassword(!showPassword)}>
-                          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        <button onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? "Hide password" : "Show password"}>
+                          {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                         </button>
                       </div>
                       <div className="grid gap-3">
                         <input
                           type={showPassword ? "text" : "password"}
                           placeholder="New Security Key (Password)"
+                          aria-label="New Security Key"
                           value={formData.newPassword}
                           onChange={(e) => setFormData({...formData, newPassword: e.target.value})}
                           className="w-full bg-black/20 border border-white/5 rounded-xl p-3 text-sm focus:ring-1 focus:ring-primary outline-none"

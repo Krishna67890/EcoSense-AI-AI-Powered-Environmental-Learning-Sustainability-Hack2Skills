@@ -13,6 +13,7 @@ export function validateEnv() {
     VITE_FIREBASE_STORAGE_BUCKET: String(env.VITE_FIREBASE_STORAGE_BUCKET || '').trim(),
     VITE_FIREBASE_MESSAGING_SENDER_ID: String(env.VITE_FIREBASE_MESSAGING_SENDER_ID || '').trim(),
     VITE_FIREBASE_APP_ID: String(env.VITE_FIREBASE_APP_ID || '').trim(),
+    VITE_FIREBASE_MEASUREMENT_ID: String(env.VITE_FIREBASE_MEASUREMENT_ID || '').trim(),
     VITE_GEMINI_API_KEY: String(env.VITE_GEMINI_API_KEY || '').trim(),
   };
 

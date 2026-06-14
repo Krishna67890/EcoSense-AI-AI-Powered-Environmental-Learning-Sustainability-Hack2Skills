@@ -6,12 +6,10 @@ import {
   Leaf,
   MessageSquare,
   Binary,
-  Settings,
   LogOut,
   Menu,
   X,
   Target,
-  Trophy,
   Activity,
   Calendar,
   User as UserIcon,
@@ -154,7 +152,7 @@ const Dashboard = () => {
           <div className="flex items-center space-x-3 mb-6 p-3 glass-dark rounded-2xl">
             <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-primary to-green-300 overflow-hidden flex items-center justify-center">
                {userProfile?.photoURL ? (
-                 <img src={userProfile.photoURL} alt="" className="h-full w-full object-cover" />
+                 <img src={userProfile.photoURL} alt="User profile" className="h-full w-full object-cover" />
                ) : (
                  <span className="text-black font-bold">{userProfile?.displayName?.[0] || 'E'}</span>
                )}
@@ -175,13 +173,16 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto relative">
+      <main id="main-content" className="flex-1 overflow-y-auto relative">
         {/* Top Floating Guide & Notifications */}
         <div className="fixed top-6 right-6 z-50 flex items-center gap-4">
           {/* Notifications Bell */}
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
+              aria-label="View notifications"
+              aria-expanded={showNotifications}
+              aria-haspopup="true"
               className={cn(
                 "p-3 rounded-2xl border transition-all shadow-2xl backdrop-blur-md relative",
                 showNotifications
@@ -189,7 +190,7 @@ const Dashboard = () => {
                   : "bg-white/5 border-white/10 text-white hover:bg-white/10"
               )}
             >
-              <Bell size={20} />
+              <Bell size={20} aria-hidden="true" />
               {notifications.filter(n => !n.read).length > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-4 w-4">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -267,6 +268,7 @@ const Dashboard = () => {
 
           <button
             onClick={isSpeaking ? stopSpeaking : speakSection}
+            aria-label={isSpeaking ? "Stop AI audio guide" : "Start AI audio guide"}
             className={cn(
               "hidden lg:flex items-center gap-3 px-5 py-3 rounded-2xl border transition-all shadow-2xl backdrop-blur-md group",
               isSpeaking
@@ -275,7 +277,7 @@ const Dashboard = () => {
             )}
           >
             <div className="relative">
-              {isSpeaking ? <VolumeX size={20} /> : <Volume2 size={20} />}
+              {isSpeaking ? <VolumeX size={20} aria-hidden="true" /> : <Volume2 size={20} aria-hidden="true" />}
               {isSpeaking && (
                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
