@@ -227,9 +227,9 @@ const Onboarding = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[#09090b]">
-      <div className="w-full max-w-2xl">
+      <main className="w-full max-w-2xl">
         {/* Progress Bar */}
-        <div className="mb-12">
+        <div className="mb-12" role="progressbar" aria-valuenow={((currentStep + 1) / steps.length) * 100} aria-valuemin={0} aria-valuemax={100}>
           <div className="flex justify-between mb-4">
             {steps.map((_, i) => (
               <div
@@ -255,9 +255,9 @@ const Onboarding = () => {
           >
             <div className="mb-8">
               <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-primary/10 mb-6">
-                {React.createElement(steps[currentStep].icon, { className: 'h-6 w-6 text-primary' })}
+                {React.createElement(steps[currentStep].icon, { className: 'h-6 w-6 text-primary', 'aria-hidden': 'true' })}
               </div>
-              <h2 className="text-3xl font-bold mb-2">{steps[currentStep].title}</h2>
+              <h1 className="text-3xl font-bold mb-2">{steps[currentStep].title}</h1>
               <p className="text-muted-foreground">{steps[currentStep].description}</p>
             </div>
 
@@ -290,7 +290,7 @@ const Onboarding = () => {
             </div>
           </motion.div>
         </AnimatePresence>
-      </div>
+      </main>
     </div>
   );
 };

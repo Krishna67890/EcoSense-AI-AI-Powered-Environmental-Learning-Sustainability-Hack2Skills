@@ -10,18 +10,22 @@ import Button from '../components/ui/Button';
 
 const FAQItem = ({ question, answer }: { question: string, answer: string }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const id = question.toLowerCase().replace(/\s+/g, '-');
   return (
     <div className="border-b border-white/5">
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls={`faq-answer-${id}`}
         className="w-full py-6 flex justify-between items-center text-left group"
       >
         <span className="text-lg font-medium group-hover:text-primary transition-colors">{question}</span>
-        <ChevronDown className={`transform transition-transform ${isOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'}`} />
+        <ChevronDown className={`transform transition-transform ${isOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'}`} aria-hidden="true" />
       </button>
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id={`faq-answer-${id}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -59,7 +63,7 @@ const LandingPage = () => {
   return (
     <div className="relative overflow-hidden selection:bg-primary selection:text-black">
       {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 glass-dark border-b border-white/10 px-6 py-4">
+      <nav className="fixed top-0 w-full z-50 glass-dark border-b border-white/10 px-6 py-4" role="navigation" aria-label="Main Navigation">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Leaf className="text-primary h-8 w-8" />
@@ -78,8 +82,9 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6">
+      <main id="main-content">
+        {/* Hero Section */}
+        <section className="pt-40 pb-20 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -250,6 +255,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="py-20 border-t border-white/5 bg-black">

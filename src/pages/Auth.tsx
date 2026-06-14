@@ -129,20 +129,21 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md glass-dark p-8 rounded-3xl border border-white/10 shadow-2xl"
-      >
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-primary/10 mb-4">
-            <Leaf className="h-8 w-8 text-primary" />
+      <main className="w-full max-w-md">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="glass-dark p-8 rounded-3xl border border-white/10 shadow-2xl"
+        >
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-primary/10 mb-4">
+              <Leaf className="h-8 w-8 text-primary" aria-hidden="true" />
+            </div>
+            <h1 className="text-3xl font-bold">{isSignUp ? 'Create Account' : 'Welcome Back'}</h1>
+            <p className="text-muted-foreground mt-2">
+              {isSignUp ? 'Join the movement for a greener planet' : 'Continue your sustainability journey'}
+            </p>
           </div>
-          <h2 className="text-3xl font-bold">{isSignUp ? 'Create Account' : 'Welcome Back'}</h2>
-          <p className="text-muted-foreground mt-2">
-            {isSignUp ? 'Join the movement for a greener planet' : 'Continue your sustainability journey'}
-          </p>
-        </div>
 
         {error && (
           <div className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
@@ -242,6 +243,7 @@ const Auth = () => {
           </button>
         </p>
       </motion.div>
+      </main>
     </div>
   );
 };

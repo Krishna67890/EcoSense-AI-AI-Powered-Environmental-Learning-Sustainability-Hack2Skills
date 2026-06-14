@@ -23,7 +23,6 @@ const getFirebaseConfig = () => {
     storageBucket: String(env.VITE_FIREBASE_STORAGE_BUCKET || '').trim(),
     messagingSenderId: String(env.VITE_FIREBASE_MESSAGING_SENDER_ID || '').trim(),
     appId: String(env.VITE_FIREBASE_APP_ID || '').trim(),
-    measurementId: String(env.VITE_FIREBASE_MEASUREMENT_ID || '').trim(),
   };
 };
 
