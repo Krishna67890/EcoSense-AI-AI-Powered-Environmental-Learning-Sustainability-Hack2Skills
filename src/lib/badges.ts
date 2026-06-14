@@ -4,17 +4,54 @@ export interface Badge {
   description: string;
   icon: string;
   requirement: string;
-  category: 'task' | 'milestone' | 'social';
+  category: 'module' | 'lab' | 'mission' | 'milestone';
+  taskId?: string; // Links to module.id or lab.id
 }
 
-export const BADGES: Badge[] = Array.from({ length: 50 }).map((_, i) => ({
-  id: `badge-${i + 1}`,
-  title: [
-    "Carbon Commuter", "Energy Saver", "Green Eater", "Waste Warrior",
-    "Water Guardian", "Eco Scout", "Nature Lover", "Climate Hero"
-  ][i % 8] + ` Rank ${Math.floor(i / 8) + 1}`,
-  description: `Awarded for completing unique task #${i + 1} in your sustainability journey.`,
-  icon: ['🌱', '💡', '🚲', '🥗', '💧', '♻️', '🌍', '🛡️'][i % 8],
-  requirement: `Complete ${i + 1} total missions`,
-  category: 'task'
-}));
+const icons = ['🌱', '💡', '🚲', '🥗', '💧', '♻️', '🌍', '🛡️', '⚡', '🏹', '💎', '🔥', '🌊', '🌲', '☀️', '🌕'];
+
+export const BADGES: Badge[] = Array.from({ length: 50 }).map((_, i) => {
+  const isModule = i < 25;
+  const isLab = i >= 25 && i < 45;
+
+  let category: Badge['category'] = 'mission';
+  let taskId: string | undefined;
+  let title = "";
+  let requirement = "";
+
+  if (isModule) {
+    category = 'module';
+    taskId = `mod-${i + 1}`; // Placeholder IDs matching data.ts structure
+    title = `Scholar ${i + 1}`;
+    requirement = `Complete Knowledge Module #${i + 1}`;
+  } else if (isLab) {
+    category = 'lab';
+    taskId = `lab-${i - 24}`;
+    title = `Scientist ${i - 24}`;
+    requirement = `Solve Eco Lab #${i - 24}`;
+  } else {
+    category = 'milestone';
+    title = `Eco Legend ${i - 44}`;
+    requirement = `Reach XP Milestone ${ (i - 44) * 5000}`;
+  }
+
+  // Override specific known titles from data.ts if needed
+  const specificTitles = [
+    "Climate Scholar", "Energy Expert", "Waste Manager", "Transport Pro",
+    "Water Saver", "Green Architect", "Nutritionist", "Footprint Specialist"
+  ];
+
+  if (i < specificTitles.length) {
+    title = specificTitles[i];
+  }
+
+  return {
+    id: `badge-${i + 1}`,
+    title,
+    description: `A prestigious badge for your dedication to ${title.toLowerCase()}.`,
+    icon: icons[i % icons.length],
+    requirement,
+    category,
+    taskId
+  };
+});

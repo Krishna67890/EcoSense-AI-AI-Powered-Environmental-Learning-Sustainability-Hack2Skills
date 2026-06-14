@@ -268,7 +268,6 @@ const Profile = () => {
     if (currentProgress >= 100) return;
 
     const newProgress = Math.min(currentProgress + 34, 100);
-    // Aligning XP with KnowledgeHub: ~1000 XP total for a lab
     const xpGain = currentProgress === 0 ? 300 : (newProgress === 100 ? 400 : 150);
     const progressGain = newProgress === 100 ? 10 : 2;
 
@@ -277,14 +276,26 @@ const Profile = () => {
       const newXP = (userProfile.experience || 0) + xpGain;
       const newLevel = Math.floor(newXP / 1000) + 1;
 
-      await updateDoc(userRef, {
+      const updates: any = {
         [`labProgress.${labId}`]: newProgress,
         experience: newXP,
         level: newLevel,
         totalTasksCompleted: newProgress === 100 ? (userProfile.totalTasksCompleted || 0) + 1 : (userProfile.totalTasksCompleted || 0),
         ecoProgress: Math.min(100, (userProfile.ecoProgress || 0) + progressGain),
-        sustainabilityScore: Math.min(100, (userProfile.sustainabilityScore || 0) + progressGain) // Maintain legacy
-      });
+        sustainabilityScore: Math.min(100, (userProfile.sustainabilityScore || 0) + progressGain)
+      };
+
+      if (newProgress === 100) {
+        // Find matching badge title
+        const badgeTitle = BADGES.find(b => b.taskId === labId)?.title || `Lab Master ${labId}`;
+        if (!userProfile.badges?.includes(badgeTitle)) {
+          updates.badges = [...(userProfile.badges || []), badgeTitle];
+          setNotification(`Achievement Unlocked: ${badgeTitle}!`);
+          setTimeout(() => setNotification(null), 3000);
+        }
+      }
+
+      await updateDoc(userRef, updates);
     } catch (error) {
       console.error("Error updating lab:", error);
     }
@@ -299,18 +310,27 @@ const Profile = () => {
 
     try {
       const userRef = doc(db, 'users', currentUser.uid);
-      const newXP = (userProfile.experience || 0) + 500; // Match KnowledgeHub
+      const newXP = (userProfile.experience || 0) + 500;
       const newProgress = (userProfile.ecoProgress || 0) + 5;
       const newLevel = Math.floor(newXP / 1000) + 1;
 
-      await updateDoc(userRef, {
+      const badgeTitle = BADGES.find(b => b.taskId === moduleId)?.title || `Scholar ${moduleId}`;
+      const updates: any = {
         [`moduleProgress.${moduleId}`]: 100,
         experience: newXP,
         level: newLevel,
         totalTasksCompleted: (userProfile.totalTasksCompleted || 0) + 1,
         ecoProgress: Math.min(100, newProgress),
-        sustainabilityScore: Math.min(100, newProgress) // Maintain legacy
-      });
+        sustainabilityScore: Math.min(100, newProgress)
+      };
+
+      if (!userProfile.badges?.includes(badgeTitle)) {
+        updates.badges = [...(userProfile.badges || []), badgeTitle];
+        setNotification(`Achievement Unlocked: ${badgeTitle}!`);
+        setTimeout(() => setNotification(null), 3000);
+      }
+
+      await updateDoc(userRef, updates);
     } catch (error) {
       console.error("Error updating module:", error);
     }
@@ -439,21 +459,21 @@ const Profile = () => {
           </Card>
 
           <Button variant="outline" className="w-full border-red-500/20 text-red-500 hover:bg-red-500/10" onClick={async () => {
+            const auth = getFirebaseAuth();
+            const db = getFirestore();
+
             try {
-              const db = getFirestore();
-              const auth = getFirebaseAuth();
               if (currentUser && db) {
-                await updateDoc(doc(db, 'users', currentUser.uid), { isOnline: false });
+                // Try to set offline status, but don't block on failure
+                await updateDoc(doc(db, 'users', currentUser.uid), { isOnline: false }).catch(() => {});
               }
               if (auth) {
                 await signOut(auth);
-                window.location.href = '/'; // Force redirect to landing
               }
             } catch (error) {
               console.error("Sign out error:", error);
-              // Fallback if firestore update fails
-              const auth = getFirebaseAuth();
-              if (auth) await signOut(auth);
+            } finally {
+              // ALWAYS redirect, even if Firebase is broken
               window.location.href = '/';
             }
           }}>
