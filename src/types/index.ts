@@ -155,4 +155,5 @@ export interface CommunityPost {
   image?: string;
   achievementId?: string;
   tags?: string[];
+  isBot?: boolean;
 }

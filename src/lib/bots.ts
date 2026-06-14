@@ -27,10 +27,24 @@ export const generateBots = (): UserProfile[] => {
     totalTasksCompleted: Math.floor(Math.random() * 200),
     badges: ['Eco Bot', 'Verified Bot'],
     joinedAt: 'January 1, 2024',
+    onboardingCompleted: true,
     isOnline: Math.random() > 0.3,
     lastSeen: new Date().toISOString(),
-    isBot: true
-  }));
+    isBot: true,
+    habits: {
+      transportation: { dailyDistance: 0, type: 'walk' },
+      energy: { monthlyUsage: 0, renewableSource: true },
+      diet: 'vegan',
+      flights: 0,
+      waste: 'low',
+      water: 0,
+      householdSize: 1
+    },
+    completedChallenges: [],
+    completedTasks: [],
+    moduleProgress: {},
+    labProgress: {}
+  } as UserProfile));
 };
 
 export const BOT_COMMENTS = [
@@ -62,7 +76,7 @@ export const generateBotPosts = (count: number): CommunityPost[] => {
       timestamp: new Date(Date.now() - Math.random() * 10000000).toISOString(),
       tags: ['#EcoBot', '#Sustainability', '#AI'],
       isBot: true
-    } as any);
+    } as CommunityPost);
   }
   return posts;
 };
