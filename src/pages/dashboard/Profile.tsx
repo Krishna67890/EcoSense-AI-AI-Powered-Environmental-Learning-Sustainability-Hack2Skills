@@ -162,7 +162,11 @@ const Profile = () => {
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file || !currentUser) return;
+    if (!file) return;
+    if (!currentUser) {
+      alert("Authentication error: Please sign in again.");
+      return;
+    }
 
     try {
       setUploadProgress(0);
@@ -174,7 +178,10 @@ const Profile = () => {
 
       const storage = getFirebaseStorage();
       const db = getFirestore();
-      if (!storage || !db) return;
+
+      if (!storage || !db) {
+        throw new Error("Cloud services unavailable. Check your VITE_FIREBASE_API_KEY.");
+      }
 
       const storageRef = ref(storage, `profiles/${currentUser.uid}/profile_pic.jpg`);
       const uploadTask = uploadBytesResumable(storageRef, compressedBlob);
@@ -219,9 +226,15 @@ const Profile = () => {
   };
 
   const handleSaveProfile = async () => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      alert("Session expired. Please log in again.");
+      return;
+    }
     const db = getFirestore();
-    if (!db) return;
+    if (!db) {
+      alert("Configuration Error: Firebase API Key is missing or invalid. Check your .env or Vercel settings.");
+      return;
+    }
     try {
       const userRef = doc(db, 'users', currentUser.uid);
       await updateDoc(userRef, {
